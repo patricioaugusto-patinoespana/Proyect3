@@ -1,52 +1,32 @@
-DROP TABLE IF EXISTS customer CASCADE;
+DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS items CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
-
 --ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE titles(
-	title_id VARCHAR PRIMARY KEY NOT NULL,
-	title VARCHAR(30) NOT NULL
+CREATE TABLE customers(
+	customer VARCHAR(15) PRIMARY KEY NOT NULL,
+	type_c VARCHAR(8) NOT NULL,
+	consumption_c VARCHAR(7) ,
+	location_c 	VARCHAR(30)
 );
-
+	
 --ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE departments(
-	dept_no VARCHAR(4) PRIMARY KEY,
-	dept_name VARCHAR(50)
+CREATE TABLE items(
+	item VARCHAR(9) PRIMARY KEY NOT NULL,
+	description VARCHAR(50) NOT NULL,
+	item_type INT NOT NULL,
+	des_i_type VARCHAR(30) NOT NULL,
+	item_group VARCHAR(30) NOT NULL,
+	unit_measure VARCHAR(4)
 );
-
 --ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE employees(
-	emp_no INT PRIMARY KEY NOT NULL,
-	emp_title_id VARCHAR(5) NOT NULL,
-	birth_date VARCHAR(10) NOT NULL,
-	first_name VARCHAR(30) NOT NULL,
-	last_name VARCHAR(30) NOT NULL,
-	sex VARCHAR(1) NOT NULL,
-	hire_date VARCHAR(10) NOT NULL,
-	FOREIGN KEY (emp_title_id) REFERENCES titles(title_id)
-);
-
---ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE salaries(
-	emp_no INT PRIMARY KEY,
-	salary INT NOT NULL,
-	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
-);
-
---ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE dept_mng(
-	dept_no VARCHAR(4) NOT NULL,
-	emp_no INT NOT NULL,
-	PRIMARY KEY (dept_no, emp_no),
-	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
-	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
-);
-
---ºººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººººº
-CREATE TABLE dept_empl(
-	emp_no INT NOT NULL,
-	dept_no VARCHAR(4) NOT NULL,
-	PRIMARY KEY (emp_no, dept_no),
-	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
-	FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+CREATE TABLE sales(
+	period_s INT NOT NULL,
+	item VARCHAR(9) NOT NULL,
+	quantity NUMERIC ,
+	sales NUMERIC ,
+	store VARCHAR(7) NOT NULL,
+	customer VARCHAR(15)NOT NULL,
+	PRIMARY KEY (period_s,item,store, customer),
+	FOREIGN KEY (item) REFERENCES items(item),
+	FOREIGN KEY (customer) REFERENCES customers(customer)
 );
